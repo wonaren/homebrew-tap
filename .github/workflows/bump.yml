@@ -2,7 +2,9 @@ name: Bump cask
 
 on:
   schedule:
-    - cron: "23 */6 * * *"
+    - cron: "23 * * * *"
+  repository_dispatch:
+    types: [release]
   workflow_dispatch:
 
 permissions:
