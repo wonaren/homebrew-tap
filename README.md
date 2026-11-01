@@ -1,7 +1,7 @@
 # CopyAttach for Homebrew
 
 ```sh
-brew install --cask wonaren/copyattach/copyattach
+brew install --cask wonaren/tap/copyattach
 ```
 
 Apple Silicon (arm64) on macOS 15.0+ only.
