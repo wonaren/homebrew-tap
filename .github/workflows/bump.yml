@@ -1,0 +1,38 @@
+name: Bump cask
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: bump
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Point cask at the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=$(gh api repos/wonaren/copy-attach/releases/latest --jq .tag_name)
+          version=${tag#v}
+          current=$(sed -n 's/^  version "\(.*\)"$/\1/p' Casks/copyattach.rb)
+          if [ "$version" = "$current" ]; then
+            echo "Already at ${version}"
+            exit 0
+          fi
+          url="https://github.com/wonaren/copy-attach/releases/download/${tag}/CopyAttach-${version}-macos-arm64.dmg"
+          sha=$(curl -fsSL "$url" | shasum -a 256 | cut -d' ' -f1)
+          sed -i "s/^  version \".*\"$/  version \"${version}\"/; s/^  sha256 \".*\"$/  sha256 \"${sha}\"/" Casks/copyattach.rb
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/copyattach.rb
+          git commit -m "copyattach ${version}"
+          git push
