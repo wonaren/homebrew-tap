@@ -1,6 +1,6 @@
 cask "copyattach" do
-  version "0.112.0"
-  sha256 "a75dcffa096009e18ba7cb0763451e24287258f801c1ba3f2c55a9195bcd7808"
+  version "0.113.0"
+  sha256 "0fc620030d468244bbfdcc4dae166d85e370bd69f61477a8aea1813488d7870e"
 
   url "https://github.com/wonaren/copy-attach/releases/download/v#{version}/CopyAttach-#{version}-macos-arm64.dmg"
   name "CopyAttach"
